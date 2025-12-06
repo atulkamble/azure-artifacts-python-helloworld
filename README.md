@@ -115,6 +115,53 @@ python -m pip install azurehello --extra-index-url https://pkgs.dev.azure.com/at
 python -c "import app.hello as h; print(h.say_hello('Azure Artifacts Success!'))"
 ```
 
+## GitHub Actions CI/CD
+
+This project includes GitHub Actions workflows for automated building, testing, and publishing.
+
+### Workflows Available
+
+#### 1. **Build and Publish** (`.github/workflows/build-and-publish.yml`)
+- **Triggers**: Push to `main` branch, Pull requests
+- **Features**:
+  - Builds Python package
+  - Publishes to PyPI (optional)
+  - Publishes to Azure Artifacts (optional)
+  - Tests installation
+  - Uploads build artifacts
+
+#### 2. **Build and Test** (`.github/workflows/test.yml`)
+- **Triggers**: Push to `main`/`develop`, Pull requests
+- **Features**:
+  - **Matrix testing**: Multiple OS (Ubuntu, Windows, macOS)
+  - **Python versions**: 3.8, 3.9, 3.10, 3.11, 3.12
+  - Package build and installation testing
+  - Cross-platform compatibility testing
+
+### Setup GitHub Actions Secrets
+
+For publishing to work, add these secrets in GitHub repository settings:
+
+1. **For PyPI Publishing:**
+   ```
+   PYPI_API_TOKEN = your-pypi-api-token
+   ```
+
+2. **For Azure Artifacts Publishing:**
+   ```
+   AZURE_ARTIFACTS_TOKEN = your-azure-devops-personal-access-token
+   ```
+
+### GitHub Actions vs Azure DevOps
+
+| Feature | GitHub Actions | Azure DevOps |
+|---------|---------------|---------------|
+| **Trigger** | Push/PR to main | Push to main |
+| **OS Support** | Multi-OS matrix | Ubuntu only |
+| **Python Versions** | 3.8-3.12 | 3.x latest |
+| **Publishing** | PyPI + Azure Artifacts | Azure Artifacts |
+| **Testing** | Cross-platform | Single platform |
+
 ## Azure DevOps Pipeline Setup & Configuration
 
 ### Step 1: Prerequisites Setup

@@ -1,0 +1,64 @@
+name: Build and Publish Python Package
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    # Step 2: Set up Python
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    
+    # Step 3: Install dependencies
+    - name: Install packaging tools
+      run: |
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+    
+    # Step 4: Build Python package
+    - name: Build Python package
+      run: |
+        python setup.py sdist bdist_wheel
+    
+    # Step 5: Upload to PyPI (Optional - requires PyPI token)
+    - name: Publish to PyPI
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        python -m twine upload dist/* --skip-existing
+    
+    # Step 6: Upload to Azure Artifacts (Alternative)
+    - name: Publish to Azure Artifacts
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      env:
+        TWINE_USERNAME: build
+        TWINE_PASSWORD: ${{ secrets.AZURE_ARTIFACTS_TOKEN }}
+      run: |
+        python -m twine upload --repository-url https://pkgs.dev.azure.com/atul-kamble/project/_packaging/python-packages/pypi/upload/ dist/* --skip-existing
+    
+    # Step 7: Test installation
+    - name: Test package installation
+      run: |
+        pip install dist/*.whl
+        python -c "import app.hello as h; print(h.say_hello('GitHub Actions Test'))"
+    
+    # Step 8: Upload artifacts
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: python-package
+        path: dist/
