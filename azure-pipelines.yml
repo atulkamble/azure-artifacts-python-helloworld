@@ -25,15 +25,15 @@ steps:
 # Step 4: Publish Python package to Azure Artifacts
 - task: TwineAuthenticate@1
   inputs:
-    artifactFeed: "your-feed-name"
+    artifactFeed: "python-packages"
   displayName: "Authenticate with Azure Artifacts"
 
 - script: |
-    python -m twine upload -r "your-feed-name" --config-file $(PYPIRC_PATH) dist/*
+    python -m twine upload -r "python-packages" --config-file ~./pypirc dist/*
   displayName: "Upload package to Azure Artifacts"
 
 # Step 5: Install package from Azure Artifacts (test)
 - script: |
-    pip install azurehello --extra-index-url $(feed.url)
+    pip install azurehello --extra-index-url https://dev.azure.com/atul-kamble/project/_artifacts/feed/python-packages
     python -c "import app.hello as h; print(h.say_hello('Pipeline Test'))"
   displayName: "Install & test package"
