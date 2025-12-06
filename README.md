@@ -65,7 +65,7 @@ pip install setuptools wheel
 python setup.py sdist bdist_wheel
 
 # Install the package locally
-pip install dist/azurehello-1.0.0-py3-none-any.whl
+pip install dist/azurehello-1.0.1-py3-none-any.whl
 
 # Test the installed package
 python -c "from app.hello import say_hello; print(say_hello('Local Test'))"

@@ -26,6 +26,7 @@ steps:
 - task: TwineAuthenticate@1
   inputs:
     artifactFeed: "project/python-packages"
+    pythonUploadServiceConnection: "azure-artifacts-connection"
   displayName: "Authenticate with Azure Artifacts"
 
 - script: |
