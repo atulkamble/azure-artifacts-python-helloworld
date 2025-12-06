@@ -1,0 +1,39 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+# Step 1: Install Python
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.x'
+  displayName: "Use Python 3.x"
+
+# Step 2: Install setuptools + wheel + twine
+- script: |
+    pip install setuptools wheel twine
+  displayName: "Install packaging tools"
+
+# Step 3: Build Python package
+- script: |
+    python setup.py sdist bdist_wheel
+  displayName: "Build Python package"
+
+# Step 4: Publish Python package to Azure Artifacts
+- task: TwineAuthenticate@1
+  inputs:
+    artifactFeed: "your-feed-name"
+  displayName: "Authenticate with Azure Artifacts"
+
+- script: |
+    python -m twine upload -r "your-feed-name" --config-file $(PYPIRC_PATH) dist/*
+  displayName: "Upload package to Azure Artifacts"
+
+# Step 5: Install package from Azure Artifacts (test)
+- script: |
+    pip install azurehello --extra-index-url $(feed.url)
+    python -c "import app.hello as h; print(h.say_hello('Pipeline Test'))"
+  displayName: "Install & test package"
