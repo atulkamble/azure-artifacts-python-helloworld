@@ -71,6 +71,44 @@ pip install dist/azurehello-1.0.0-py3-none-any.whl
 python -c "from app.hello import say_hello; print(say_hello('Local Test'))"
 ```
 
+## Manual Upload to Azure Artifacts
+
+### Prerequisites Check
+
+```bash
+# Check if built packages exist
+ls -la dist/
+
+# Verify Azure CLI is installed and authenticated
+az --version
+az account show
+```
+
+### Install Required Tools
+
+```bash
+# Install authentication and upload tools
+python -m pip install keyring artifacts-keyring
+python -m pip install twine
+```
+
+### Upload Package to Azure Artifacts
+
+```bash
+# Upload to your Azure Artifacts feed
+python -m twine upload --repository-url https://pkgs.dev.azure.com/atul-kamble/project/_packaging/python-packages/pypi/upload/ dist/*
+```
+
+### Test Installation from Azure Artifacts
+
+```bash
+# Install package from Azure Artifacts feed
+python -m pip install azurehello --extra-index-url https://pkgs.dev.azure.com/atul-kamble/project/_packaging/python-packages/pypi/simple/
+
+# Test the installed package
+python -c "import app.hello as h; print(h.say_hello('Azure Artifacts Success!'))"
+```
+
 ## Azure DevOps Pipeline Setup & Configuration
 
 ### Step 1: Prerequisites Setup

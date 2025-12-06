@@ -29,7 +29,6 @@ steps:
   displayName: "Authenticate with Azure Artifacts"
 
 - script: |
-    python -m twine upload -r "python-packages" --config-file ~./pypirc dist/*
   displayName: "Upload package to Azure Artifacts"
 
 # Step 5: Install package from Azure Artifacts (test)
