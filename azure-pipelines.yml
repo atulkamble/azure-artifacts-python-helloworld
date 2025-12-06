@@ -29,7 +29,7 @@ steps:
   displayName: "Authenticate with Azure Artifacts"
 
 - script: |
-    python -m twine upload -r "python-packages" --config-file $(PYPIRC_PATH) dist/*
+    python -m twine upload -r "python-packages" --config-file $(PYPIRC_PATH) dist/* --verbose
   displayName: "Upload package to Azure Artifacts"
 
 # Step 5: Install package from Azure Artifacts (test)
