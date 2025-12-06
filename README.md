@@ -162,6 +162,13 @@ This project includes GitHub Actions workflows for automated building, testing, 
   - Package build and installation testing
   - Cross-platform compatibility testing
 
+### GitHub Actions Versions
+
+The workflows use the latest action versions:
+- `actions/checkout@v4` - Latest checkout action
+- `actions/setup-python@v5` - Latest Python setup action  
+- `actions/upload-artifact@v4` - Latest artifact upload action
+
 ### Setup GitHub Actions Secrets
 
 For publishing to work, add these secrets in GitHub repository settings:
