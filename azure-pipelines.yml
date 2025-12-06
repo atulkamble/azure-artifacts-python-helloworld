@@ -25,7 +25,7 @@ steps:
 # Step 4: Publish Python package to Azure Artifacts
 - task: TwineAuthenticate@1
   inputs:
-    artifactFeed: "python-packages"
+    artifactFeed: "project/python-packages"
   displayName: "Authenticate with Azure Artifacts"
 
 - script: |
