@@ -365,4 +365,4 @@ python -c "from app.hello import say_hello; print(say_hello('Azure Artifacts'))"
 - ✅ Azure DevOps pipeline integration
 - ✅ Publishing to Azure Artifacts
 - ✅ Package installation and usage
-
+-    end of project
